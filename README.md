@@ -5,7 +5,8 @@
 1. Install Postgres
 2. Install Node.js & pnpm
 3. Navigate to `packages/db`
-    a. Create a `.env` file using the `.env.sample` as a reference. Include your own connection string for your local Postgres install
-    b. Run `pnpm migrate` to create & update your database
+    - Create a `.env` file using the `.env.sample` as a reference. Include your own connection string for your local Postgres install
+    - Run `pnpm migrate` to create & update your database
 4. Back in the root directory
-    a. Run `pnpm dev` to start everything
+    - Create a `.env` file in `apps/api` using the `.env.sample` as a reference.
+    - Run `pnpm dev` to start everything
