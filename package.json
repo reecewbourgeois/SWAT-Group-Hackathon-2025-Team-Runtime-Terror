@@ -1,0 +1,20 @@
+{
+	"name": "swat-group-hackathon-2025-runtime-terror",
+	"private": true,
+	"scripts": {
+		"build": "pnpm i && turbo run build",
+		"dev": "pnpm i && turbo run dev",
+		"lint": "turbo run lint",
+		"format": "biome format --write",
+		"check-types": "turbo run check-types"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.1.4",
+		"turbo": "^2.5.5",
+		"typescript": "5.8.3"
+	},
+	"packageManager": "pnpm@9.0.0",
+	"engines": {
+		"node": ">=18"
+	}
+}
