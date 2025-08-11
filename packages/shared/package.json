@@ -1,0 +1,20 @@
+{
+	"name": "@repo/shared",
+	"version": "1.0.0",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"lint": "biome lint"
+	},
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.1.4",
+		"@repo/typescript-config": "workspace:*",
+		"typescript": "5.9.2"
+	},
+	"dependencies": {
+		"zod": "4.0.17"
+	}
+}
