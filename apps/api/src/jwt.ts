@@ -8,7 +8,7 @@ export async function signAccessToken(userId: string): Promise<string> {
 		.setProtectedHeader({ alg: "HS256", typ: "JWT" })
 		.setIssuedAt()
 		.setIssuer(ISSUER)
-		.setExpirationTime("15m")
+		.setExpirationTime("30d")
 		.sign(secret);
 }
 

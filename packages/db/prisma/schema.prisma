@@ -12,6 +12,8 @@ model User {
   email     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  RefreshSession RefreshSession[]
 }
 
 model VerificationToken {
@@ -23,4 +25,17 @@ model VerificationToken {
   createdAt  DateTime @default(now())
 
   @@index([email])
+}
+
+model RefreshSession {
+  id         String   @id @default(cuid())
+  userId     String
+  tokenHash  String   @unique
+  expiresAt  DateTime
+  revokedAt  DateTime?
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
 }

@@ -1,31 +1,65 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { EmailSchema } from "@repo/shared";
+import React from "react";
+import { z } from "zod";
+import { setToken, trpc } from "./trpc";
 
-function App() {
-	const [count, setCount] = useState(0);
+const VerifyForm = z.object({
+	email: EmailSchema,
+	code: z.string().min(6).max(12),
+});
+
+export default function App() {
+	const utils = trpc.useUtils();
+	const requestCode = trpc.auth.requestCode.useMutation();
+	const verify = trpc.auth.verify.useMutation({
+		onSuccess: (data) => {
+			setToken(data.access_token);
+		},
+	});
+	const logout = trpc.auth.logout.useMutation({
+		onSuccess: () => {
+			// Remove access token; refresh cookie is cleared by API.
+			setToken(null);
+			// Clear cached queries
+			utils.invalidate();
+		},
+	});
+
+	const hello = trpc.api.hello.useQuery(undefined, { enabled: false });
+
+	const [email, setEmail] = React.useState("");
+	const [code, setCode] = React.useState("");
 
 	return (
-		<>
+		<div style={{ maxWidth: 480, margin: "2rem auto" }}>
+			<h2>Passwordless Login</h2>
+
 			<div>
-				<a href="https://vite.dev" target="_blank">
-					<img src={viteLogo} className="logo" alt="Vite logo" />
-				</a>
-				<a href="https://react.dev" target="_blank">
-					<img src={reactLogo} className="logo react" alt="React logo" />
-				</a>
+				<input placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+				<button onClick={() => requestCode.mutate({ email })} disabled={requestCode.isPending} type="button">
+					Request code
+				</button>
 			</div>
-			<h1>Vite + React</h1>
-			<div className="card">
-				<button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-				<p>
-					Edit <code>src/App.tsx</code> and save to test HMR
-				</p>
+
+			<div style={{ marginTop: 8 }}>
+				<input placeholder="code" value={code} onChange={(e) => setCode(e.target.value)} />
+				<button onClick={() => verify.mutate({ email, code })} disabled={verify.isPending} type="button">
+					Verify
+				</button>
 			</div>
-			<p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-		</>
+
+			<div style={{ marginTop: 8 }}>
+				<button onClick={() => logout.mutate()} disabled={logout.isPending} type="button">
+					Logout
+				</button>
+			</div>
+
+			<div style={{ marginTop: 16 }}>
+				<button onClick={() => hello.refetch()} disabled={hello.isFetching} type="button">
+					Call protected hello
+				</button>
+				<pre>{JSON.stringify(hello.data ?? hello.error, null, 2)}</pre>
+			</div>
+		</div>
 	);
 }
-
-export default App;
