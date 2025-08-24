@@ -1,18 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Wheel } from "react-custom-roulette";
-import type { WheelData } from "react-custom-roulette/dist/components/Wheel/types";
-
-type WheelDataType = WheelData & {
-  prizeNumber: number;
-  disabled?: boolean;
-};
-
-const Sample_Wheel_Data: WheelDataType[] = [
-  { prizeNumber: 0, option: "Option 1", disabled: false },
-  { prizeNumber: 1, option: "Option 2", disabled: false },
-  { prizeNumber: 2, option: "Option 3", disabled: false },
-  { prizeNumber: 3, option: "Option 4", disabled: false },
-];
+import type { WheelDataType } from "../types/WheelDataType";
+import { Sample_Wheel_Data } from "../api/sample-wheel-data";
 
 const pickPrizeNumber = (data: WheelDataType[]) => {
   let winningPrizeNumber = -1;
@@ -31,9 +20,12 @@ const pickPrizeNumber = (data: WheelDataType[]) => {
   return winningPrizeNumber;
 };
 
-export const RouletteWheel = () => {
-  const [data, setData] = useState<WheelDataType[]>(Sample_Wheel_Data);
+type Props = {
+  data: WheelDataType[];
+  setData: (arg: WheelDataType[]) => void;
+};
 
+export const RouletteWheel = ({ data, setData }: Props) => {
   const [mustSpin, setMustSpin] = useState<boolean>(false);
   const [removeOptions, setRemoveOptions] = useState<boolean>(true);
 

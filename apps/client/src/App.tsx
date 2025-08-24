@@ -2,7 +2,7 @@ import { EmailSchema } from "@repo/shared";
 import React from "react";
 import { z } from "zod";
 import { setToken, trpc } from "./trpc";
-import { RouletteWheel } from "./components/roulette-wheel";
+import { RouletteGame } from "./components/roulette-game";
 
 const VerifyForm = z.object({
   email: EmailSchema,
@@ -86,7 +86,7 @@ export default function App() {
         <pre>{JSON.stringify(hello.data ?? hello.error, null, 2)}</pre>
       </div>
 
-      <RouletteWheel />
+      <RouletteGame />
     </div>
   );
 }
