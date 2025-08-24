@@ -1,11 +1,11 @@
 import { useState } from "react";
 import type { WheelDataType } from "../types/WheelDataType";
-import { RouletteOptions } from "./roulette-options";
-import { RouletteWheel } from "./roulette-wheel";
+import { RouletteOptions } from "../components/roulette-options";
+import { RouletteWheel } from "../components/roulette-wheel";
 import { Sample_Wheel_Data } from "../api/sample-wheel-data";
 import "./roulette.css";
 
-export const RouletteGame = () => {
+export const Roulette = () => {
   const [data, setData] = useState<WheelDataType[]>(Sample_Wheel_Data);
 
   return (

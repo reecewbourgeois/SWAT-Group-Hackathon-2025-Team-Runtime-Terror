@@ -1,0 +1,13 @@
+.roulette-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+
+  gap: 8px;
+
+  .header-label {
+    font-size: 50px;
+  }
+}

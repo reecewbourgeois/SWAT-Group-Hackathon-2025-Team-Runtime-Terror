@@ -1,92 +1,15 @@
-import { EmailSchema } from "@repo/shared";
-import React from "react";
-import { z } from "zod";
-import { setToken, trpc } from "./trpc";
-import { RouletteGame } from "./components/roulette-game";
-
-const VerifyForm = z.object({
-  email: EmailSchema,
-  code: z.string().min(6).max(12),
-});
+import { Route, Routes } from "react-router-dom";
+import { Roulette } from "./routes/Roulette";
+import { Login } from "./routes/Login";
+import "./App.css";
 
 export default function App() {
-  const utils = trpc.useUtils();
-  const requestCode = trpc.auth.requestCode.useMutation();
-  const verify = trpc.auth.verify.useMutation({
-    onSuccess: (data) => {
-      setToken(data.access_token);
-    },
-  });
-  const logout = trpc.auth.logout.useMutation({
-    onSuccess: () => {
-      // Remove access token; refresh cookie is cleared by API.
-      setToken(null);
-      // Clear cached queries
-      utils.invalidate();
-    },
-  });
-
-  const hello = trpc.api.hello.useQuery(undefined, { enabled: false });
-
-  const [email, setEmail] = React.useState("");
-  const [code, setCode] = React.useState("");
-
   return (
-    <div style={{ maxWidth: 480, margin: "2rem auto" }}>
-      <h2>Passwordless Login</h2>
-
-      <div>
-        <input
-          placeholder="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <button
-          onClick={() => requestCode.mutate({ email })}
-          disabled={requestCode.isPending}
-          type="button"
-        >
-          Request code
-        </button>
-      </div>
-
-      <div style={{ marginTop: 8 }}>
-        <input
-          placeholder="code"
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-        />
-        <button
-          onClick={() => verify.mutate({ email, code })}
-          disabled={verify.isPending}
-          type="button"
-        >
-          Verify
-        </button>
-      </div>
-
-      <div style={{ marginTop: 8 }}>
-        <button
-          onClick={() => logout.mutate()}
-          disabled={logout.isPending}
-          type="button"
-        >
-          Logout
-        </button>
-      </div>
-
-      <div style={{ marginTop: 16 }}>
-        <button
-          onClick={() => hello.refetch()}
-          disabled={hello.isFetching}
-          type="button"
-        >
-          Call protected hello
-        </button>
-        <pre>{JSON.stringify(hello.data ?? hello.error, null, 2)}</pre>
-      </div>
-
-      <RouletteGame />
+    <div>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/roulette" element={<Roulette />} />
+      </Routes>
     </div>
   );
 }
