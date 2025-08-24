@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Wheel } from "react-custom-roulette";
 import type { WheelDataType } from "../types/WheelDataType";
 import { Sample_Wheel_Data } from "../api/sample-wheel-data";
+import "./roulette.css";
 
 const pickPrizeNumber = (data: WheelDataType[]) => {
   let winningPrizeNumber = -1;
@@ -86,15 +87,8 @@ export const RouletteWheel = ({ data, setData }: Props) => {
         onStopSpinning={onStopSpinning}
       />
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          width: "100%",
-        }}
-      >
-        <div style={{ display: "flex", gap: "16px" }}>
+      <div className="roulette-wheel-buttons-container">
+        <div className="buttons-container">
           <button onClick={reset}>Reset</button>
 
           <button disabled={areAllOptionsDisabled} onClick={spin}>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { WheelDataType } from "../types/WheelDataType";
+import "./roulette.css";
 
 type Props = {
   data: WheelDataType[];
@@ -27,70 +28,33 @@ export const RouletteOptions = ({ data, setData }: Props) => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        gap: "8px",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "8px",
-          height: "25px",
-        }}
-      >
+    <div className="roulette-options-container">
+      <div className="add-new-option-container">
         <input
-          value={input}
+          className="new-option-input"
           onChange={(event) => setInput(event.currentTarget.value)}
           placeholder="New Option"
-          style={{
-            display: "flex",
-            width: "100%",
-          }}
+          value={input}
         />
 
-        <button
-          onClick={add}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            backgroundColor: "green",
-          }}
-        >
+        <button className="new-option-button" onClick={add}>
           Add
         </button>
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+      <div className="options-list-container">
         {data.map((value) => {
           return (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
+            <div className="option-container">
               <div>
                 <label>{value.prizeNumber}. </label>
                 <label>{value.option}</label>
               </div>
 
               <button
+                className="remove-button"
                 onClick={() => remove(value)}
                 type="button"
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  backgroundColor: "red",
-                  height: "25px",
-                  width: "25px",
-                }}
               >
                 X
               </button>
