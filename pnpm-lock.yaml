@@ -20,6 +20,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@fastify/cookie':
+        specifier: ^11.0.2
+        version: 11.0.2
       '@fastify/cors':
         specifier: 11.1.0
         version: 11.1.0
@@ -44,6 +47,9 @@ importers:
       jose:
         specifier: 6.0.12
         version: 6.0.12
+      resend:
+        specifier: ^6.0.1
+        version: 6.0.1
       zod:
         specifier: 4.0.17
         version: 4.0.17
@@ -66,12 +72,30 @@ importers:
 
   apps/client:
     dependencies:
+      '@tanstack/react-query':
+        specifier: ^5.85.5
+        version: 5.85.5(react@19.1.1)
+      '@trpc/client':
+        specifier: 11.4.4
+        version: 11.4.4(@trpc/server@11.4.4(typescript@5.8.3))(typescript@5.8.3)
+      '@trpc/react-query':
+        specifier: ^11.5.0
+        version: 11.5.0(@tanstack/react-query@5.85.5(react@19.1.1))(@trpc/client@11.4.4(@trpc/server@11.4.4(typescript@5.8.3))(typescript@5.8.3))(@trpc/server@11.4.4(typescript@5.8.3))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.8.3)
+      '@trpc/server':
+        specifier: 11.4.4
+        version: 11.4.4(typescript@5.8.3)
+      api:
+        specifier: workspace:*
+        version: link:../api
       react:
         specifier: 19.1.1
         version: 19.1.1
       react-dom:
         specifier: 19.1.1
         version: 19.1.1(react@19.1.1)
+      zod:
+        specifier: 4.0.17
+        version: 4.0.17
     devDependencies:
       '@biomejs/biome':
         specifier: 2.1.4
@@ -439,6 +463,9 @@ packages:
   '@fastify/ajv-compiler@4.0.2':
     resolution: {integrity: sha512-Rkiu/8wIjpsf46Rr+Fitd3HRP+VsxUFDDeag0hs9L0ksfnwx2g7SPQQTFL0E8Qv+rfXzQOxBJnjUB9ITUDjfWQ==}
 
+  '@fastify/cookie@11.0.2':
+    resolution: {integrity: sha512-GWdwdGlgJxyvNv+QcKiGNevSspMQXncjMZ1J8IvuDQk0jvkzgWWZFNC2En3s+nHndZBGV8IbLwOI/sxCZw/mzA==}
+
   '@fastify/cors@11.1.0':
     resolution: {integrity: sha512-sUw8ed8wP2SouWZTIbA7V2OQtMNpLj2W6qJOYhNdcmINTu6gsxVYXjQiM9mdi8UUDlcoDDJ/W2syPo1WB2QjYA==}
 
@@ -613,10 +640,28 @@ packages:
   '@standard-schema/spec@1.0.0':
     resolution: {integrity: sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA==}
 
+  '@tanstack/query-core@5.85.5':
+    resolution: {integrity: sha512-KO0WTob4JEApv69iYp1eGvfMSUkgw//IpMnq+//cORBzXf0smyRwPLrUvEe5qtAEGjwZTXrjxg+oJNP/C00t6w==}
+
+  '@tanstack/react-query@5.85.5':
+    resolution: {integrity: sha512-/X4EFNcnPiSs8wM2v+b6DqS5mmGeuJQvxBglmDxl6ZQb5V26ouD2SJYAcC3VjbNwqhY2zjxVD15rDA5nGbMn3A==}
+    peerDependencies:
+      react: ^18 || ^19
+
   '@trpc/client@11.4.4':
     resolution: {integrity: sha512-86OZl+Y+Xlt9ITGlhCMImERcsWCOrVzpNuzg3XBlsDSmSs9NGsghKjeCpJQlE36XaG3aze+o9pRukiYYvBqxgQ==}
     peerDependencies:
       '@trpc/server': 11.4.4
+      typescript: '>=5.7.2'
+
+  '@trpc/react-query@11.5.0':
+    resolution: {integrity: sha512-BPrMbYi5/oW11SSRUmD3dONCAG/JJjxfniSyFbsY5VSS6qHXDF1RcfLAkiF+Ofo7MPchqmHc2iNqSl5Eumh8iA==}
+    peerDependencies:
+      '@tanstack/react-query': ^5.80.3
+      '@trpc/client': 11.5.0
+      '@trpc/server': 11.5.0
+      react: '>=18.2.0'
+      react-dom: '>=18.2.0'
       typescript: '>=5.7.2'
 
   '@trpc/server@11.4.4':
@@ -1005,6 +1050,15 @@ packages:
   require-from-string@2.0.2:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
     engines: {node: '>=0.10.0'}
+
+  resend@6.0.1:
+    resolution: {integrity: sha512-xNZ0gKAOqQcH83lXsqNOwBbpKROnsZpQr9mXRdG6hrHTF9G9Il2pkoTRtq7rJzXMvCZX+I79oahsbSeaYOWRFA==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@react-email/render': ^1.1.0
+    peerDependenciesMeta:
+      '@react-email/render':
+        optional: true
 
   resolve-pkg-maps@1.0.0:
     resolution: {integrity: sha512-seS2Tj26TBVOC2NIc2rOe2y2ZO7efxITtLZcGSOnHHNOQ7CkiUBfw0Iw2ck6xkIhPwLhKNLS8BO+hEpngQlqzw==}
@@ -1440,6 +1494,11 @@ snapshots:
       ajv-formats: 3.0.1(ajv@8.17.1)
       fast-uri: 3.0.6
 
+  '@fastify/cookie@11.0.2':
+    dependencies:
+      cookie: 1.0.2
+      fastify-plugin: 5.0.1
+
   '@fastify/cors@11.1.0':
     dependencies:
       fastify-plugin: 5.0.1
@@ -1583,9 +1642,25 @@ snapshots:
 
   '@standard-schema/spec@1.0.0': {}
 
+  '@tanstack/query-core@5.85.5': {}
+
+  '@tanstack/react-query@5.85.5(react@19.1.1)':
+    dependencies:
+      '@tanstack/query-core': 5.85.5
+      react: 19.1.1
+
   '@trpc/client@11.4.4(@trpc/server@11.4.4(typescript@5.8.3))(typescript@5.8.3)':
     dependencies:
       '@trpc/server': 11.4.4(typescript@5.8.3)
+      typescript: 5.8.3
+
+  '@trpc/react-query@11.5.0(@tanstack/react-query@5.85.5(react@19.1.1))(@trpc/client@11.4.4(@trpc/server@11.4.4(typescript@5.8.3))(typescript@5.8.3))(@trpc/server@11.4.4(typescript@5.8.3))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.8.3)':
+    dependencies:
+      '@tanstack/react-query': 5.85.5(react@19.1.1)
+      '@trpc/client': 11.4.4(@trpc/server@11.4.4(typescript@5.8.3))(typescript@5.8.3)
+      '@trpc/server': 11.4.4(typescript@5.8.3)
+      react: 19.1.1
+      react-dom: 19.1.1(react@19.1.1)
       typescript: 5.8.3
 
   '@trpc/server@11.4.4(typescript@5.8.3)':
@@ -1999,6 +2074,8 @@ snapshots:
   real-require@0.2.0: {}
 
   require-from-string@2.0.2: {}
+
+  resend@6.0.1: {}
 
   resolve-pkg-maps@1.0.0: {}
 

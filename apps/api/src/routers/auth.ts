@@ -2,7 +2,9 @@ import crypto from "node:crypto";
 import { EmailSchema } from "@repo/shared";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { sendVerificationEmail } from "../email.js";
 import { signAccessToken } from "../jwt.js";
+import { createRefreshSession, revokeCurrentRefreshSession } from "../refresh.js";
 import { publicProcedure, router } from "../trpc.js";
 
 const VerifyInput = z.object({
@@ -30,7 +32,7 @@ export const authRouter = router({
 			},
 		});
 
-		ctx.reply.log.info({ email: input.email, code }, "Verification code issued");
+		await sendVerificationEmail(ctx, { to: input.email, code });
 
 		return { message: "Verification code sent" };
 	}),
@@ -60,11 +62,16 @@ export const authRouter = router({
 			create: { email: input.email },
 		});
 
+		await createRefreshSession(user.id, ctx.res);
 		const accessToken = await signAccessToken(user.id);
 
-		return {
-			access_token: accessToken,
-			user: { id: user.id, email: user.email },
-		};
+		return { access_token: accessToken, user: { id: user.id, email: user.email } };
+	}),
+
+	logout: publicProcedure.mutation(async ({ ctx }) => {
+		// Revoke current refresh session (cookie) and clear cookie
+		await revokeCurrentRefreshSession(ctx.req, ctx.res);
+		
+		return { success: true };
 	}),
 });

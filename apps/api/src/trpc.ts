@@ -1,13 +1,13 @@
 import { prisma } from "@repo/db";
 import { REFRESH_HEADER } from "@repo/shared";
 import { initTRPC, TRPCError } from "@trpc/server";
-import type { FastifyReply, FastifyRequest } from "fastify";
+import type { CreateFastifyContextOptions } from "@trpc/server/adapters/fastify";
 import { signAccessToken, verifyAccessToken } from "./jwt.js";
 
-export function fastifyContext(opts: { req: FastifyRequest; reply: FastifyReply }) {
+export function fastifyContext({ req, res }: CreateFastifyContextOptions) {
 	return {
-		req: opts.req,
-		reply: opts.reply,
+		req,
+		res,
 		prisma,
 		user: null as null | { id: string; email: string },
 	};
@@ -29,7 +29,7 @@ export const authedProcedure = t.procedure.use(
 		let uid: string;
 		try {
 			uid = await verifyAccessToken(token);
-		} catch (e) {
+		} catch (_e) {
 			throw new TRPCError({
 				code: "UNAUTHORIZED",
 				message: "Invalid token",
@@ -45,7 +45,7 @@ export const authedProcedure = t.procedure.use(
 
 		// Refresh token on every authed call
 		const newToken = await signAccessToken(user.id);
-		ctx.reply.header(REFRESH_HEADER, newToken);
+		ctx.res.header(REFRESH_HEADER, newToken);
 
 		return next({
 			ctx: {
