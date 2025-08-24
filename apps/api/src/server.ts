@@ -2,7 +2,7 @@ import "dotenv/config";
 import cors from "@fastify/cors";
 import rateLimit from "@fastify/rate-limit";
 import { REFRESH_HEADER } from "@repo/shared";
-import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
+import { type FastifyTRPCPluginOptions, fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
 import Fastify from "fastify";
 import { appRouter } from "./routers/app.js";
 import { authRouter } from "./routers/auth.js";
@@ -29,13 +29,16 @@ async function main() {
 		api: appRouter,
 	});
 
-	// TODO: Find out why this shows as an error
 	await app.register(fastifyTRPCPlugin, {
 		prefix: "/trpc",
 		trpcOptions: {
 			router: rootRouter,
 			createContext: fastifyContext,
-		},
+			onError({ path, error }) {
+				// report to error monitoring
+				console.error(`Error in tRPC handler on path '${path}':`, error);
+			},
+		} satisfies FastifyTRPCPluginOptions<typeof rootRouter>["trpcOptions"],
 	});
 
 	await app.listen({ port: PORT });
