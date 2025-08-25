@@ -33,7 +33,7 @@ export async function createRefreshSession(userId: string, reply: FastifyReply) 
 
 export async function rotateRefreshSession(req: FastifyRequest, reply: FastifyReply) {
 	const raw = req.cookies[COOKIE_NAME];
-	
+
 	if (!raw) return null;
 
 	const tokenHash = hashToken(raw);

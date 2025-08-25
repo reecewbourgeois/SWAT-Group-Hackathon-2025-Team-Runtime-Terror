@@ -71,7 +71,7 @@ export const authRouter = router({
 	logout: publicProcedure.mutation(async ({ ctx }) => {
 		// Revoke current refresh session (cookie) and clear cookie
 		await revokeCurrentRefreshSession(ctx.req, ctx.res);
-		
+
 		return { success: true };
 	}),
 });

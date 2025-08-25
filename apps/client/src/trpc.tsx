@@ -9,7 +9,7 @@ import React from "react";
 let token: string | null = localStorage.getItem("token");
 export function setToken(t: string | null) {
 	token = t;
-    
+
 	if (t) {
 		localStorage.setItem("token", t);
 	} else {

@@ -1,0 +1,74 @@
+.settings-dialog {
+	z-index: 100;
+
+	display: flex;
+	flex-direction: column;
+	justify-self: center;
+	align-self: center;
+
+	gap: 8px;
+
+	.settings-label {
+		font-size: large;
+	}
+
+	.settings-dialog-body {
+		display: flex;
+		flex-direction: column;
+
+		gap: 8px;
+
+		.name-option {
+			display: flex;
+
+			height: 100%;
+
+			gap: 8px;
+		}
+
+		.name-input {
+			width: 100%;
+		}
+	}
+
+	.handle-prizes {
+		display: flex;
+
+		width: 100%;
+
+		gap: 8px;
+
+		.radio-button-label {
+			display: flex;
+
+			gap: 4px;
+
+			.radio-button-input {
+				margin: 0;
+			}
+		}
+	}
+
+	.settings-dialog-footer {
+		display: flex;
+		justify-content: center;
+
+		height: 25px;
+
+		gap: 8px;
+
+		.cancel-button {
+			display: flex;
+			align-items: center;
+
+			background-color: red;
+		}
+
+		.save-button {
+			display: flex;
+			align-items: center;
+
+			background-color: green;
+		}
+	}
+}

@@ -1,1 +1,11 @@
-{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts"],"version":"5.8.3"}
+{
+  "root": [
+    "./src/app.tsx",
+    "./src/main.tsx",
+    "./src/trpc.tsx",
+    "./src/vite-env.d.ts",
+    "./src/components/roulette-wheel.tsx"
+  ],
+  "errors": true,
+  "version": "5.8.3"
+}
