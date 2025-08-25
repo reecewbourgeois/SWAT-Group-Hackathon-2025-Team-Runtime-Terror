@@ -4,23 +4,7 @@ import type { WheelDataType } from "../types/WheelDataType";
 import { Sample_Wheel_Data } from "../api/sample-wheel-data";
 import "./roulette.css";
 import type { PrizeHandleType } from "../types/PrizeHandleType";
-
-const pickPrizeNumber = (data: WheelDataType[]) => {
-  let winningPrizeNumber = -1;
-  while (winningPrizeNumber === -1) {
-    const newPrizeNumber = Math.floor(Math.random() * data.length);
-
-    const isDisabled = data.find(
-      (val) => val.prizeNumber === newPrizeNumber
-    )?.disabled;
-
-    if (!isDisabled) {
-      winningPrizeNumber = newPrizeNumber;
-    }
-  }
-
-  return winningPrizeNumber;
-};
+import { handleDisableOptions, pickPrizeNumber } from "../utils/roulette-utils";
 
 type Props = {
   data: WheelDataType[];
@@ -50,23 +34,14 @@ export const RouletteWheel = ({ data, setData, prizeHandler }: Props) => {
   const onStopSpinning = () => {
     setMustSpin(false);
 
-    if (prizeHandler === "Default") return;
-
-    const updatedData = [...data].reduce<WheelDataType[]>((prev, curr) => {
-      if (prizeNumber === curr.prizeNumber) {
-        prev.push({
-          ...curr,
-          disabled: true,
-          style: { backgroundColor: "gray" },
-        });
-        return prev;
-      }
-
-      prev.push(curr);
-      return prev;
-    }, []);
-
-    setData(updatedData);
+    if (prizeHandler === "Disable Options") {
+      const newData = handleDisableOptions(data, prizeNumber);
+      setData(newData);
+    } else if (prizeHandler === "Remove Options") {
+      const newData = handleDisableOptions(data, prizeNumber);
+      const filteredData = newData.filter((value) => !value.disabled);
+      setData(filteredData);
+    }
   };
 
   return (
