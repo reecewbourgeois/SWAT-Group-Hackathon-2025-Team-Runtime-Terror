@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Wheel } from "react-custom-roulette";
-import type { WheelDataType } from "../types/WheelDataType";
 import { Sample_Wheel_Data } from "../api/sample-wheel-data";
+import type { WheelDataType } from "../types/WheelDataType";
 import "./roulette.css";
 import type { PrizeHandleType } from "../types/PrizeHandleType";
 import { handleDisableOptions, pickPrizeNumber } from "../utils/roulette-utils";
@@ -37,11 +37,11 @@ export const RouletteWheel = ({ data, setData, prizeHandler }: Props) => {
 		if (prizeHandler === "Disable Options") {
 			const newData = handleDisableOptions(data, prizeNumber);
 			setData(newData);
-		} else if (prizeHandler === "Remove Options") {
+		} /* else if (prizeHandler === "Remove Options") {
 			const newData = handleDisableOptions(data, prizeNumber);
 			const filteredData = newData.filter((value) => !value.disabled);
 			setData(filteredData);
-		}
+		} */
 	};
 
 	return (

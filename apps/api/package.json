@@ -19,6 +19,7 @@
 		"@fastify/cookie": "^11.0.2",
 		"@fastify/cors": "11.1.0",
 		"@fastify/rate-limit": "10.3.0",
+		"@fastify/static": "^8.2.0",
 		"@repo/db": "workspace:*",
 		"@trpc/client": "11.4.4",
 		"@trpc/server": "11.4.4",

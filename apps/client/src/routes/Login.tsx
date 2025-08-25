@@ -1,18 +1,19 @@
+import { AccessCodeSchema, EmailSchema } from "@repo/shared";
 import React from "react";
-import { setToken, trpc } from "../trpc";
 import z from "zod";
-import { EmailSchema } from "@repo/shared";
+import { setToken, trpc } from "../trpc";
 
 const VerifyForm = z.object({
 	email: EmailSchema,
 	code: z.string().min(6).max(12),
+	accessCode: AccessCodeSchema,
 });
 
 export const Login = () => {
 	const utils = trpc.useUtils();
 	const requestCode = trpc.auth.requestCode.useMutation();
 	const verify = trpc.auth.verify.useMutation({
-		onSuccess: (data: any) => {
+		onSuccess: (data) => {
 			setToken(data.access_token);
 		},
 	});
@@ -29,20 +30,36 @@ export const Login = () => {
 
 	const [email, setEmail] = React.useState("");
 	const [code, setCode] = React.useState("");
+	const [accessCode, setAccessCode] = React.useState("");
+
 	return (
 		<div style={{ maxWidth: 480, margin: "2rem auto" }}>
 			<h2>Passwordless Login</h2>
 
 			<div>
+				<input
+					placeholder="access code"
+					value={accessCode}
+					onChange={(e) => setAccessCode(e.target.value)}
+					style={{ display: "block", marginBottom: 8 }}
+				/>
 				<input placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-				<button onClick={() => requestCode.mutate({ email })} disabled={requestCode.isPending} type="button">
+				<button
+					onClick={() => requestCode.mutate({ email, accessCode })}
+					disabled={requestCode.isPending}
+					type="button"
+				>
 					Request code
 				</button>
 			</div>
 
 			<div style={{ marginTop: 8 }}>
 				<input placeholder="code" value={code} onChange={(e) => setCode(e.target.value)} />
-				<button onClick={() => verify.mutate({ email, code })} disabled={verify.isPending} type="button">
+				<button
+					onClick={() => verify.mutate({ email, code, accessCode })}
+					disabled={verify.isPending}
+					type="button"
+				>
 					Verify
 				</button>
 			</div>

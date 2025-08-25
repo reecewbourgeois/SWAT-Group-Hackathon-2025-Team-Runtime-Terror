@@ -5,7 +5,8 @@
 	"private": true,
 	"scripts": {
 		"lint": "biome lint",
-		"migrate": "prisma migrate dev"
+		"migrate": "prisma migrate dev",
+		"postinstall": "prisma generate"
 	},
 	"exports": {
 		".": "./src/index.ts"
@@ -13,10 +14,10 @@
 	"devDependencies": {
 		"@biomejs/biome": "2.1.4",
 		"@repo/typescript-config": "workspace:*",
-		"prisma": "6.14.0",
 		"typescript": "5.9.2"
 	},
 	"dependencies": {
-		"@prisma/client": "6.13.0"
+		"@prisma/client": "6.13.0",
+		"prisma": "6.14.0"
 	}
 }

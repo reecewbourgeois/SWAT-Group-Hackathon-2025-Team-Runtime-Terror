@@ -1,7 +1,10 @@
 import "dotenv/config";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import fastifyCookie from "@fastify/cookie";
 import cors from "@fastify/cors";
 import rateLimit from "@fastify/rate-limit";
+import fastifyStatic from "@fastify/static";
 import { REFRESH_HEADER } from "@repo/shared";
 import { type FastifyTRPCPluginOptions, fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
 import Fastify from "fastify";
@@ -11,6 +14,9 @@ import { rootRouter } from "./root.js";
 import { fastifyContext } from "./trpc.js";
 
 const PORT = Number(process.env.PORT || 5000);
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const WEB_DIST_DIR = path.resolve(__dirname, "dist/web");
 
 async function main() {
 	const app = Fastify({ logger: true });
@@ -22,7 +28,7 @@ async function main() {
 	});
 
 	await app.register(rateLimit, {
-		max: 20,
+		max: 5,
 		timeWindow: "1 minute",
 	});
 
@@ -49,6 +55,20 @@ async function main() {
 		// Return in body and header for convenience
 		reply.header(REFRESH_HEADER, access);
 		return { access_token: access, user: { id: user.id, email: user.email } };
+	});
+
+	// Static files (React build)
+	await app.register(fastifyStatic, {
+		root: WEB_DIST_DIR,
+		prefix: "/",
+	});
+
+	// SPA fallback: send index.html for unknown GET routes (after /trpc and /auth)
+	app.setNotFoundHandler((req, reply) => {
+		if (req.method === "GET" && !req.url.startsWith("/trpc") && !req.url.startsWith("/auth")) {
+			return reply.sendFile("index.html");
+		}
+		reply.code(404).send({ error: "Not Found" });
 	});
 
 	await app.listen({ port: PORT, host: "localhost" });
