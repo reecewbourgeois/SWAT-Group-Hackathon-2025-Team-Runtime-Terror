@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { WheelDataType } from "../types/WheelDataType";
 import "./roulette.css";
+import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
 
 type Props = {
   data: WheelDataType[];
@@ -38,7 +39,7 @@ export const RouletteOptions = ({ data, setData }: Props) => {
         />
 
         <button className="new-option-button" onClick={add}>
-          Add
+          <AiOutlinePlus />
         </button>
       </div>
 
@@ -51,12 +52,8 @@ export const RouletteOptions = ({ data, setData }: Props) => {
                 <label>{value.option}</label>
               </div>
 
-              <button
-                className="remove-button"
-                onClick={() => remove(value)}
-                type="button"
-              >
-                X
+              <button className="remove-button" onClick={() => remove(value)}>
+                <AiOutlineDelete />
               </button>
             </div>
           );

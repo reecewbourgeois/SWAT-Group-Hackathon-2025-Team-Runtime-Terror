@@ -1,20 +1,28 @@
 {
-	"name": "swat-group-hackathon-2025-runtime-terror",
-	"private": true,
-	"scripts": {
-		"build": "pnpm i && turbo run build",
-		"dev": "pnpm i && turbo run dev",
-		"lint": "turbo run lint",
-		"format": "biome format --write",
-		"check-types": "turbo run check-types"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "2.1.4",
-		"turbo": "^2.5.5",
-		"typescript": "5.8.3"
-	},
-	"packageManager": "pnpm@9.0.0",
-	"engines": {
-		"node": ">=18"
-	}
+  "name": "swat-group-hackathon-2025-runtime-terror",
+  "private": true,
+  "scripts": {
+    "build": "pnpm i && turbo run build",
+    "dev": "pnpm i && turbo run dev",
+    "lint": "turbo run lint",
+    "format": "biome format --write",
+    "check-types": "turbo run check-types"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.1.4",
+    "typescript": "5.8.3"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "node": "^20.19.0",
+    "prisma": "^6.14.0",
+    "react-custom-roulette": "^1.4.1",
+    "react-icons": "^5.5.0",
+    "react-router-dom": "^7.8.2",
+    "turbo": "^2.5.6",
+    "vite": "^7.1.3"
+  }
 }

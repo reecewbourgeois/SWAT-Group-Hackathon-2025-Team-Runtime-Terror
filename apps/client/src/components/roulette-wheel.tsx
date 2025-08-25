@@ -3,6 +3,7 @@ import { Wheel } from "react-custom-roulette";
 import type { WheelDataType } from "../types/WheelDataType";
 import { Sample_Wheel_Data } from "../api/sample-wheel-data";
 import "./roulette.css";
+import type { PrizeHandleType } from "../types/PrizeHandleType";
 
 const pickPrizeNumber = (data: WheelDataType[]) => {
   let winningPrizeNumber = -1;
@@ -24,12 +25,11 @@ const pickPrizeNumber = (data: WheelDataType[]) => {
 type Props = {
   data: WheelDataType[];
   setData: (arg: WheelDataType[]) => void;
+  prizeHandler: PrizeHandleType;
 };
 
-export const RouletteWheel = ({ data, setData }: Props) => {
+export const RouletteWheel = ({ data, setData, prizeHandler }: Props) => {
   const [mustSpin, setMustSpin] = useState<boolean>(false);
-  const [removeOptions, setRemoveOptions] = useState<boolean>(true);
-
   const [prizeNumber, setPrizeNumber] = useState<number>(1);
 
   const availableOptions = data.filter((val) => !val.disabled);
@@ -47,14 +47,10 @@ export const RouletteWheel = ({ data, setData }: Props) => {
     setMustSpin(true);
   };
 
-  const handleKeepOptions = () => {
-    setRemoveOptions((prev) => !prev);
-  };
-
   const onStopSpinning = () => {
     setMustSpin(false);
 
-    if (!removeOptions) return;
+    if (prizeHandler === "Default") return;
 
     const updatedData = [...data].reduce<WheelDataType[]>((prev, curr) => {
       if (prizeNumber === curr.prizeNumber) {
@@ -95,15 +91,6 @@ export const RouletteWheel = ({ data, setData }: Props) => {
             Spin
           </button>
         </div>
-
-        <label>
-          <input
-            checked={removeOptions}
-            onClick={handleKeepOptions}
-            type="checkbox"
-          />
-          Remove Options
-        </label>
       </div>
     </>
   );
