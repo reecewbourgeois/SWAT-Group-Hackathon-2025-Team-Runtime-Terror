@@ -6,11 +6,11 @@ import { TrpcProvider } from "./trpc.tsx";
 import { BrowserRouter } from "react-router-dom";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <TrpcProvider>
-        <App />
-      </TrpcProvider>
-    </BrowserRouter>
-  </StrictMode>
+	<StrictMode>
+		<BrowserRouter>
+			<TrpcProvider>
+				<App />
+			</TrpcProvider>
+		</BrowserRouter>
+	</StrictMode>,
 );

@@ -1,67 +1,67 @@
 .roulette-wheel-buttons-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
-  width: 100%;
+	width: 100%;
 
-  .buttons-container {
-    display: flex;
+	.buttons-container {
+		display: flex;
 
-    gap: 16px;
-  }
+		gap: 16px;
+	}
 }
 
 .roulette-options-container {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 
-  width: 100%;
+	width: 100%;
 
-  gap: 8px;
+	gap: 8px;
 }
 
 .add-new-option-container {
-  display: flex;
-  justify-content: center;
+	display: flex;
+	justify-content: center;
 
-  height: 25px;
+	height: 25px;
 
-  gap: 8px;
+	gap: 8px;
 
-  .new-option-input {
-    display: flex;
+	.new-option-input {
+		display: flex;
 
-    width: 100%;
-  }
+		width: 100%;
+	}
 
-  .new-option-button {
-    display: flex;
-    align-items: center;
+	.new-option-button {
+		display: flex;
+		align-items: center;
 
-    background-color: green;
-  }
+		background-color: green;
+	}
 }
 
 .options-list-container {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 
-  gap: 8px;
+	gap: 8px;
 
-  .option-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+	.option-container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 
-    .remove-button {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+		.remove-button {
+			display: flex;
+			justify-content: center;
+			align-items: center;
 
-      height: 25px;
+			height: 25px;
 
-      background-color: red;
-    }
-  }
+			background-color: red;
+		}
+	}
 }

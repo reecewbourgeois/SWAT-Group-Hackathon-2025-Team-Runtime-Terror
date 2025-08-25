@@ -4,12 +4,12 @@ import { Login } from "./routes/Login";
 import "./App.css";
 
 export default function App() {
-  return (
-    <div>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/roulette" element={<Roulette />} />
-      </Routes>
-    </div>
-  );
+	return (
+		<div>
+			<Routes>
+				<Route path="/" element={<Login />} />
+				<Route path="/roulette" element={<Roulette />} />
+			</Routes>
+		</div>
+	);
 }

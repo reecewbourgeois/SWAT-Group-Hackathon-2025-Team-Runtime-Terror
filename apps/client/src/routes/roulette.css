@@ -1,28 +1,28 @@
 .roulette-page-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
-  width: 100%;
+	width: 100%;
 
-  gap: 8px;
+	gap: 8px;
 }
 
 .header-container {
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
 
-  .header-label {
-    font-size: 50px;
-  }
+	.header-label {
+		font-size: 50px;
+	}
 
-  .settings-button {
-    display: flex;
-    align-items: center;
+	.settings-button {
+		display: flex;
+		align-items: center;
 
-    height: fit-content;
-    width: fit-content;
+		height: fit-content;
+		width: fit-content;
 
-    background-color: transparent;
-  }
+		background-color: transparent;
+	}
 }
