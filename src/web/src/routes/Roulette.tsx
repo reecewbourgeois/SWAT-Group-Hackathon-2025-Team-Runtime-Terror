@@ -81,7 +81,7 @@ const Header = ({ openSettings, title }: HeaderProps) => {
 			</button>
 
 			<button className="settings-button" onClick={openSettings}>
-				<AiTwotoneSetting size="25" />
+				<AiTwotoneSetting className="button" />
 			</button>
 		</div>
 	);

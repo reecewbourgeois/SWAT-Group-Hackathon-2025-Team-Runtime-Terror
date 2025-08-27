@@ -30,3 +30,11 @@ export const handleDisableOptions = (data: WheelDataType[], prizeNumber: number)
 		return prev;
 	}, []);
 };
+
+export const validateUniqueOption = (data: WheelDataType[], value: string) => {
+	return data.some((val) => val.option?.toLowerCase() === value.trim().toLowerCase());
+};
+
+export const validateOptionValue = (value: string) => {
+	return value.trim() === "";
+};

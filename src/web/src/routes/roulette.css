@@ -10,19 +10,23 @@
 
 .header-container {
 	display: flex;
+	justify-content: center;
 	align-items: center;
 
+	width: 100%;
+
 	.header-label {
+		width: 100%;
 		font-size: 50px;
 	}
 
 	.settings-button {
-		display: flex;
-		align-items: center;
-
-		height: fit-content;
-		width: fit-content;
-
+		padding: 4px;
 		background-color: transparent;
+
+		.button {
+			width: 25px;
+			width: 25px;
+		}
 	}
 }
