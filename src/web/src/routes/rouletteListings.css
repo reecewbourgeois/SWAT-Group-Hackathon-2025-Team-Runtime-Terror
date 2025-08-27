@@ -5,17 +5,32 @@
   gap: 8px;
 }
 
+.header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .search-input {
   display: flex;
   justify-content: center;
   align-items: center;
 
   gap: 4px;
+
+  .input {
+    width: 100%;
+  }
 }
 
 .listing-container {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 
   gap: 8px;
 
