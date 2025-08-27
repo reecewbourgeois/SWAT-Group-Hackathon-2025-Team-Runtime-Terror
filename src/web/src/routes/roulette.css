@@ -1,53 +1,57 @@
 .roulette-page-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
-  width: 100%;
+	width: 100%;
 
-  gap: 8px;
+	gap: 8px;
 }
 
 .header-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 
-  width: 100%;
+	width: 100%;
 
-  .top-row {
-    display: flex;
-    justify-content: space-between;
+	.top-row {
+		display: flex;
+		justify-content: space-between;
 
-    .back-button {
-      display: flex;
-      align-items: center;
+		.back-button {
+			display: flex;
+			align-items: center;
 
-      gap: 8px;
-      padding: 4px;
+			gap: 8px;
+			padding: 4px;
 
-      font-size: small;
+			font-size: small;
 
-      background-color: transparent;
-    }
-  }
+			background-color: transparent;
+		}
+	}
 
-  .bottom-row {
-    display: flex;
-  }
+	.bottom-row {
+		display: flex;
+    align-items: safe center;
+	}
 
-  .header-label {
-    width: 100%;
-    font-size: 50px;
-  }
+	.header-label {
+		font-size: 50px;
+	}
 
-  .settings-button {
-    padding: 4px;
-    background-color: transparent;
+	.settings-button {
+		padding: 4px;
+		background-color: transparent;
+		border: none;
+
+		width: 50px;
+		height: 50px;
 
     .button {
       width: 25px;
-      width: 25px;
+      height: 25px;
     }
-  }
+	}
 }

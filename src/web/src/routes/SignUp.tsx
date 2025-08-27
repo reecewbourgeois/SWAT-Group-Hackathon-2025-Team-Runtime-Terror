@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { trpc } from "../trpc";
 
 export function SignUpPage() {
@@ -17,27 +17,39 @@ export function SignUpPage() {
 	};
 
 	return (
-		<div style={{ maxWidth: 480, margin: "2rem auto" }}>
-			<h2>Sign up</h2>
-			<input
-				placeholder="access code"
-				value={accessCode}
-				onChange={(e) => setAccessCode(e.target.value)}
-				style={{ display: "block", marginBottom: 8 }}
-			/>
-			<input
-				placeholder="email"
-				value={email}
-				onChange={(e) => setEmail(e.target.value)}
-				style={{ display: "block", marginBottom: 8 }}
-			/>
-			<button onClick={onSubmit} disabled={requestCode.isPending} type="button">
-				Continue
-			</button>
-			<p style={{ marginTop: 12 }}>
-				Already have an account? <a href="/login">Log in</a>
-			</p>
-			{requestCode.isError && <pre style={{ color: "crimson" }}>{String(requestCode.error.message)}</pre>}
+		<div
+			style={{
+				display: "flex",
+				width: "100%",
+				height: "100%",
+				alignItems: "safe center",
+				justifyContent: "center",
+			}}
+		>
+			<div>
+				<h2>Sign up</h2>
+				<input
+					placeholder="Access Code"
+					value={accessCode}
+					onChange={(e) => setAccessCode(e.target.value)}
+					style={{ display: "block", marginBottom: 8 }}
+					type="text"
+				/>
+				<input
+					placeholder="Email"
+					value={email}
+					onChange={(e) => setEmail(e.target.value)}
+					style={{ display: "block", marginBottom: 8 }}
+					type="text"
+				/>
+				<button onClick={onSubmit} disabled={requestCode.isPending} type="button">
+					Continue
+				</button>
+				<p style={{ marginTop: 12 }}>
+					Already have an account? <Link to="/login">Log in</Link>
+				</p>
+				{requestCode.isError && <pre style={{ color: "crimson" }}>{String(requestCode.error.message)}</pre>}
+			</div>
 		</div>
 	);
 }

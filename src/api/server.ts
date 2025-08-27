@@ -2,7 +2,6 @@ import "dotenv/config";
 import path from "node:path";
 import fastifyCookie from "@fastify/cookie";
 import cors from "@fastify/cors";
-import rateLimit from "@fastify/rate-limit";
 import fastifyStatic from "@fastify/static";
 import { type FastifyTRPCPluginOptions, fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
 import Fastify from "fastify";
@@ -21,12 +20,6 @@ async function main() {
 		origin: true,
 		credentials: true,
 		exposedHeaders: [REFRESH_HEADER],
-	});
-
-	await app.register(rateLimit, {
-		global: false, // TODO: FIX
-		max: 5,
-		timeWindow: "1 minute",
 	});
 
 	await app.register(fastifyCookie, {});

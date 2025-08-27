@@ -5,109 +5,105 @@ import { RouletteWheel } from "../components/roulette-wheel";
 import type { WheelDataType } from "../types/WheelDataType";
 import "./roulette.css";
 import { AiTwotoneSetting } from "react-icons/ai";
+import { BiArrowBack } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 import { SettingsDialog } from "../components/roulette-settings-dialog";
 import { setToken, trpc } from "../trpc";
 import type { PrizeHandleType } from "../types/PrizeHandleType";
-import { BiArrowBack } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
 
 export const Roulette = () => {
-  const searchParams = new URLSearchParams(window.location.search);
+	const searchParams = new URLSearchParams(window.location.search);
 
-  const name = searchParams.get("name") ?? "Untitled";
+	const name = searchParams.get("name") ?? "Untitled";
 
-  const [data, setData] = useState<WheelDataType[]>(Sample_Wheel_Data);
-  const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
-  const [prizeHandler, setPrizeHandler] = useState<PrizeHandleType>("Default");
+	const [data, setData] = useState<WheelDataType[]>(Sample_Wheel_Data);
+	const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
+	const [prizeHandler, setPrizeHandler] = useState<PrizeHandleType>("Default");
 
-  const nameRef = useRef(name);
+	const nameRef = useRef(name);
 
-  const openSettings = () => {
-    setIsSettingsOpen(true);
-  };
+	const openSettings = () => {
+		setIsSettingsOpen(true);
+	};
 
-  const closeSettings = () => {
-    setIsSettingsOpen(false);
-  };
+	const closeSettings = () => {
+		setIsSettingsOpen(false);
+	};
 
-  const saveSettings = (name: string) => {
-    nameRef.current = name;
-    setIsSettingsOpen(false);
-  };
+	const saveSettings = (name: string) => {
+		nameRef.current = name;
+		setIsSettingsOpen(false);
+	};
 
-  return (
-    <div className="roulette-page-container">
-      <Header openSettings={openSettings} title={nameRef.current} />
+	return (
+		<div className="roulette-page-container">
+			<Header openSettings={openSettings} title={nameRef.current} />
 
-      <RouletteWheel
-        data={data}
-        setData={setData}
-        prizeHandler={prizeHandler}
-      />
+			<RouletteWheel data={data} setData={setData} prizeHandler={prizeHandler} />
 
-      <RouletteOptions data={data} setData={setData} />
+			<RouletteOptions data={data} setData={setData} />
 
-      {isSettingsOpen && (
-        <SettingsDialog
-          closeSettings={closeSettings}
-          name={nameRef.current}
-          saveSettings={saveSettings}
-          prizeHandler={prizeHandler}
-          updatePrizeHandler={setPrizeHandler}
-        />
-      )}
-    </div>
-  );
+			{isSettingsOpen && (
+				<SettingsDialog
+					closeSettings={closeSettings}
+					name={nameRef.current}
+					saveSettings={saveSettings}
+					prizeHandler={prizeHandler}
+					updatePrizeHandler={setPrizeHandler}
+				/>
+			)}
+		</div>
+	);
 };
 
 type HeaderProps = {
-  title: string;
-  openSettings: () => void;
+	title: string;
+	openSettings: () => void;
 };
 
 const Header = ({ openSettings, title }: HeaderProps) => {
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
-  const utils = trpc.useUtils();
+	const utils = trpc.useUtils();
 
-  const logout = trpc.auth.logout.useMutation({
-    onSuccess: () => {
-      setToken(null);
-      utils.invalidate();
-      // After logout, go back to /login
-      window.location.href = "/login";
-    },
-  });
+	const logout = trpc.auth.logout.useMutation({
+		onSuccess: () => {
+			setToken(null);
+			utils.invalidate();
+			// After logout, go back to /login
+			window.location.href = "/login";
+		},
+	});
 
-  const goBack = () => {
-    navigate("/roulette-listings");
-  };
+	const goBack = () => {
+		navigate("/roulette-listings");
+	};
 
-  return (
-    <div className="header-container">
-      <div className="top-row">
-        <button className="back-button" onClick={goBack}>
-          <BiArrowBack />
-          Back to Listings
-        </button>
+	return (
+		<div className="header-container">
+			<div className="top-row">
+				<button className="back-button" onClick={goBack}>
+					<BiArrowBack />
+					Back to Listings
+				</button>
 
-        <button
-          onClick={() => {
-            logout.mutate();
-          }}
-          type="button"
-        >
-          Logout
-        </button>
-      </div>
+				<button
+					onClick={() => {
+						logout.mutate();
+					}}
+					type="button"
+				>
+					Logout
+				</button>
+			</div>
 
-      <div className="bottom-row">
-        <label className="header-label">{title}</label>
+			<div className="bottom-row">
+				<label className="header-label">{title}</label>
 
-        <button className="settings-button" onClick={openSettings}>
-          <AiTwotoneSetting className="button" />
-        </button>
-      </div>
-    </div>
-  );
+				<button className="settings-button" onClick={openSettings}>
+					<AiTwotoneSetting className="button" />
+				</button>
+			</div>
+		</div>
+	);
 };

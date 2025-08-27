@@ -32,7 +32,6 @@
 .add-new-option-container {
 	display: flex;
 
-	height: 25px;
 	width: 100%;
 
 	gap: 8px;
@@ -44,6 +43,7 @@
 		gap: 4px;
 
 		background-color: green;
+		border: none;
 	}
 }
 
@@ -94,8 +94,6 @@
 			display: flex;
 			align-items: center;
 
-			height: 25px;
-
 			gap: 8px;
 
 			.edit-buttons-container {
@@ -113,6 +111,7 @@
 					padding: 4px;
 
 					background-color: transparent;
+					border: none;
 				}
 			}
 		}
@@ -132,6 +131,7 @@
 				padding: 4px;
 
 				background-color: transparent;
+				border: none;
 			}
 
 			.remove-button {
@@ -145,6 +145,7 @@
 
 				color: red;
 				background-color: transparent;
+				border: none;
 			}
 		}
 	}
