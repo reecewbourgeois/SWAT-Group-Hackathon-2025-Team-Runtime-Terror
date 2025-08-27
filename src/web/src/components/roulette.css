@@ -32,6 +32,7 @@
 .add-new-option-container {
   display: flex;
 
+  height: 25px;
   width: 100%;
 
   gap: 8px;
@@ -40,7 +41,7 @@
     display: flex;
     align-items: center;
 
-    height: 25px;
+    gap: 4px;
 
     background-color: green;
   }
@@ -65,6 +66,8 @@
   flex-direction: column;
   justify-content: center;
 
+  width: 100%;
+
   .label {
     position: absolute;
     bottom: -15px;
@@ -80,21 +83,69 @@
   display: flex;
   flex-direction: column;
 
-  gap: 8px;
+  gap: 12px;
 
   .option-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    .remove-button {
+    .left-content {
       display: flex;
-      justify-content: center;
       align-items: center;
 
       height: 25px;
 
-      background-color: red;
+      gap: 8px;
+
+      .edit-buttons-container {
+        display: flex;
+
+        gap: 2px;
+
+        .button {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          height: 25px;
+
+          padding: 4px;
+
+          background-color: transparent;
+        }
+      }
+    }
+
+    .option-buttons {
+      display: flex;
+
+      gap: 8px;
+
+      .edit-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        height: 25px;
+
+        padding: 4px;
+
+        background-color: transparent;
+      }
+
+      .remove-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        height: 25px;
+
+        padding: 4px;
+
+        color: red;
+        background-color: transparent;
+      }
     }
   }
 }

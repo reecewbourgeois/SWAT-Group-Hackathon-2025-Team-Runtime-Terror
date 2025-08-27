@@ -1,28 +1,32 @@
 .roulette-page-container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-	width: 100%;
+  width: 100%;
 
-	gap: 8px;
+  gap: 8px;
 }
 
 .header-container {
-	display: flex;
-	align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-	.header-label {
-		font-size: 50px;
-	}
+  width: 100%;
 
-	.settings-button {
-		display: flex;
-		align-items: center;
+  .header-label {
+    width: 100%;
+    font-size: 50px;
+  }
 
-		height: fit-content;
-		width: fit-content;
+  .settings-button {
+    padding: 4px;
+    background-color: transparent;
 
-		background-color: transparent;
-	}
+    .button {
+      width: 25px;
+      width: 25px;
+    }
+  }
 }
