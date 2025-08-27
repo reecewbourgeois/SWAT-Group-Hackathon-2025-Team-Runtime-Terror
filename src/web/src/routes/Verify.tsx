@@ -24,32 +24,45 @@ export function VerifyPage() {
 	};
 
 	return (
-		<div style={{ maxWidth: 480, margin: "2rem auto" }}>
-			<h2>Enter verification code</h2>
-			<input
-				placeholder="email"
-				value={email}
-				onChange={(e) => setEmail(e.target.value)}
-				style={{ display: "block", marginBottom: 8 }}
-			/>
-			{mode === "signup" && (
+		<div
+			style={{
+				display: "flex",
+				width: "100%",
+				height: "100%",
+				alignItems: "safe center",
+				justifyContent: "center",
+			}}
+		>
+			<div>
+				<h2>Enter verification code</h2>
 				<input
-					placeholder="access code"
-					value={accessCode}
-					onChange={(e) => setAccessCode(e.target.value)}
+					placeholder="Email"
+					value={email}
+					onChange={(e) => setEmail(e.target.value)}
 					style={{ display: "block", marginBottom: 8 }}
+					type="text"
 				/>
-			)}
-			<input
-				placeholder="code"
-				value={code}
-				onChange={(e) => setCode(e.target.value)}
-				style={{ display: "block", marginBottom: 8 }}
-			/>
-			<button onClick={onSubmit} disabled={verify.isPending} type="button">
-				Verify
-			</button>
-			{verify.isError && <pre style={{ color: "crimson" }}>{String(verify.error.message)}</pre>}
+				{mode === "signup" && (
+					<input
+						placeholder="Access Code"
+						value={accessCode}
+						onChange={(e) => setAccessCode(e.target.value)}
+						style={{ display: "block", marginBottom: 8 }}
+						type="text"
+					/>
+				)}
+				<input
+					placeholder="Verification Code"
+					value={code}
+					onChange={(e) => setCode(e.target.value)}
+					style={{ display: "block", marginBottom: 8 }}
+					type="text"
+				/>
+				<button onClick={onSubmit} disabled={verify.isPending} type="button">
+					Verify
+				</button>
+				{verify.isError && <pre style={{ color: "crimson" }}>{String(verify.error.message)}</pre>}
+			</div>
 		</div>
 	);
 }

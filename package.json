@@ -19,7 +19,6 @@
 	"dependencies": {
 		"@fastify/cookie": "11.0.2",
 		"@fastify/cors": "11.1.0",
-		"@fastify/rate-limit": "10.3.0",
 		"@fastify/static": "8.2.0",
 		"@prisma/client": "6.12.0",
 		"@tanstack/react-query": "5.85.5",

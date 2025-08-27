@@ -1,68 +1,207 @@
+/* Define dark mode CSS variables */
 :root {
-	font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-	line-height: 1.5;
-	font-weight: 400;
+  /* Colors */
+  --color-primary: #8a2be2; /* BlueViolet - Main accent color */
+  --color-secondary: #00bcd4; /* Cyan - Secondary accent or hover color */
 
-	color-scheme: light dark;
-	color: rgba(255, 255, 255, 0.87);
-	background-color: #242424;
+  --color-background: #1a1a1a; /* Very dark gray - Main background */
+  --color-background-alt: #2c2c2c; /* Slightly lighter dark gray - For cards, sections, input backgrounds */
+  --color-background-code: #282c34; /* For code blocks */
 
-	font-synthesis: none;
-	text-rendering: optimizeLegibility;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+  --color-text: #e0e0e0; /* Off-white - General text color */
+  --color-text-secondary: #b0b0b0; /* Lighter gray - Less prominent text */
+  --color-text-dimmed: #7f8c8d; /* Dimmed gray - For placeholders or hints */
+
+  --color-border: #444444; /* Dark gray - For input borders, separators */
+  --color-separator: #333333; /* For dividers */
+
+  --color-success: #27ae60; /* Green */
+  --color-warning: #f39c12; /* Orange */
+  --color-error: #e74c3c; /* Red */
+
+  /* Typography */
+  --font-family-base: 'Helvetica Neue', Arial, sans-serif;
+  --font-size-base: 16px;
+  --line-height-base: 1.6;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+
+  /* Spacing */
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* Border Radius */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+
+  /* Z-index (optional, for complex layouts) */
+  --z-index-dropdown: 1000;
+  --z-index-sticky: 1020;
+  --z-index-fixed: 1030;
+  --z-index-modal: 1040;
 }
 
-a {
-	font-weight: 500;
-	color: #646cff;
-	text-decoration: inherit;
+/* Global resets and body styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-a:hover {
-	color: #535bf2;
+
+html, body {
+	width: 100%;
+	height: 100%;
 }
 
 body {
-	margin: 0;
-	display: flex;
-	place-items: center;
-	min-width: 320px;
-	min-height: 100vh;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  display: flex;
+  justify-content: center;
 }
 
-h1 {
-	font-size: 3.2em;
-	line-height: 1.1;
+div#root {
+	max-width: 2000px;
+	width: 100%;
+	height: 100%;
+	padding: 2rem 1rem;
 }
 
+/* Text Styling (Headings and Paragraphs) */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  margin-bottom: var(--spacing-md);
+}
+
+h1 { font-size: var(--font-size-4xl); }
+h2 { font-size: var(--font-size-3xl); }
+h3 { font-size: var(--font-size-2xl); }
+h4 { font-size: var(--font-size-xl); }
+h5 { font-size: var(--font-size-lg); }
+h6 { font-size: var(--font-size-md); }
+
+p {
+  margin-bottom: var(--spacing-md);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text-secondary); /* Slightly dimmer for paragraphs */
+}
+
+/* Links */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover,
+a:focus {
+  color: var(--color-secondary);
+  text-decoration: underline;
+}
+
+/* Text Boxes (input, textarea) */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea {
+  display: block;
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text);
+  background-color: var(--color-background-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2); /* primary color with transparency */
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-text-dimmed);
+  opacity: 1; /* Firefox default opacity for placeholder is lower */
+}
+
+/* Buttons */
 button {
-	border-radius: 8px;
-	border: 1px solid transparent;
-	padding: 0.6em 1.2em;
-	font-size: 1em;
-	font-weight: 500;
-	font-family: inherit;
-	background-color: #1a1a1a;
-	cursor: pointer;
-	transition: border-color 0.25s;
-}
-button:hover {
-	border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-	outline: 4px auto -webkit-focus-ring-color;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  color: var(--color-text);
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
 }
 
-@media (prefers-color-scheme: light) {
-	:root {
-		color: #213547;
-		background-color: #ffffff;
-	}
-	a:hover {
-		color: #747bff;
-	}
-	button {
-		background-color: #f9f9f9;
-	}
+button:hover {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Preformatted text (e.g., for error displays) */
+pre {
+  background-color: var(--color-background-code);
+  color: var(--color-text);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  overflow-x: auto; /* For long lines */
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-md);
+  white-space: pre-wrap; /* Wrap long lines */
+  word-break: break-all; /* Break words for long tokens */
 }

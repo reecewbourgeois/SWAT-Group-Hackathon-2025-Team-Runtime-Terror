@@ -6,6 +6,7 @@ import { AccessCodeSchema, EmailSchema } from "../../shared/index.js";
 import { LoginModes } from "../../shared/types/LoginModes.js";
 import { sendVerificationEmail } from "../email.js";
 import { signAccessToken } from "../jwt.js";
+import { rateLimitRequestCode, rateLimitVerify } from "../rateLimit.js";
 import { createRefreshSession, revokeCurrentRefreshSession } from "../refresh.js";
 import { publicProcedure, router } from "../trpc.js";
 
@@ -72,6 +73,8 @@ const VerifyInput = z.object({
 
 export const authRouter = router({
 	requestCode: publicProcedure.input(InputSchema).mutation(async ({ ctx, input }) => {
+		rateLimitRequestCode(ctx.req.ip, input.email, ctx.res);
+
 		const userExists = await ctx.prisma.user.findUnique({
 			where: { email: input.email },
 		});
@@ -104,6 +107,8 @@ export const authRouter = router({
 	}),
 
 	verify: publicProcedure.input(VerifyInput).mutation(async ({ ctx, input }) => {
+		rateLimitVerify(ctx.req.ip, input.email, ctx.res);
+
 		const userExists = await ctx.prisma.user.findUnique({
 			where: { email: input.email },
 		});

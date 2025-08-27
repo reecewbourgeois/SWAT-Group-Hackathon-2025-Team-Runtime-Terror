@@ -23,5 +23,5 @@ export async function sendVerificationEmail(ctx: { res: FastifyReply }, opts: { 
 		html,
 	});
 
-	ctx.res.log.info({emailResponse}, "Email Status")
+	ctx.res.log.info(emailResponse, "Email Status")
 }
