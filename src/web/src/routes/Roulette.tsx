@@ -5,16 +5,22 @@ import { RouletteWheel } from "../components/roulette-wheel";
 import type { WheelDataType } from "../types/WheelDataType";
 import "./roulette.css";
 import { AiTwotoneSetting } from "react-icons/ai";
+import { BiArrowBack } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 import { SettingsDialog } from "../components/roulette-settings-dialog";
 import { setToken, trpc } from "../trpc";
 import type { PrizeHandleType } from "../types/PrizeHandleType";
 
 export const Roulette = () => {
+	const searchParams = new URLSearchParams(window.location.search);
+
+	const name = searchParams.get("name") ?? "Untitled";
+
 	const [data, setData] = useState<WheelDataType[]>(Sample_Wheel_Data);
 	const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
 	const [prizeHandler, setPrizeHandler] = useState<PrizeHandleType>("Default");
 
-	const nameRef = useRef("Custom Roulette");
+	const nameRef = useRef(name);
 
 	const openSettings = () => {
 		setIsSettingsOpen(true);
@@ -56,6 +62,8 @@ type HeaderProps = {
 };
 
 const Header = ({ openSettings, title }: HeaderProps) => {
+	const navigate = useNavigate();
+
 	const utils = trpc.useUtils();
 
 	const logout = trpc.auth.logout.useMutation({
@@ -67,25 +75,35 @@ const Header = ({ openSettings, title }: HeaderProps) => {
 		},
 	});
 
+	const goBack = () => {
+		navigate("/roulette-listings");
+	};
+
 	return (
 		<div className="header-container">
-			<label className="header-label">{title}</label>
+			<div className="top-row">
+				<button className="back-button" onClick={goBack}>
+					<BiArrowBack />
+					Back to Listings
+				</button>
 
-			<button
-				onClick={() => {
-					logout.mutate();
-				}}
-				style={{
-					marginRight: '8px'
-				}}
-				type="button"
-			>
-				Logout
-			</button>
+				<button
+					onClick={() => {
+						logout.mutate();
+					}}
+					type="button"
+				>
+					Logout
+				</button>
+			</div>
 
-			<button className="settings-button" onClick={openSettings}>
-				<AiTwotoneSetting className="button" />
-			</button>
+			<div className="bottom-row">
+				<label className="header-label">{title}</label>
+
+				<button className="settings-button" onClick={openSettings}>
+					<AiTwotoneSetting className="button" />
+				</button>
+			</div>
 		</div>
 	);
 };
