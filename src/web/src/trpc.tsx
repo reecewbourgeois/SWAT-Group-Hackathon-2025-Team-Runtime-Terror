@@ -3,7 +3,7 @@ import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import { createTRPCReact } from "@trpc/react-query";
 import React from "react";
 import { REFRESH_HEADER } from "../../shared";
-import type { RootRouter } from "../../shared/trpc-types";
+import type { RootRouter } from "../../shared/types/trpc-types";
 
 // Token storage
 let token: string | null = localStorage.getItem("token");
@@ -18,7 +18,7 @@ export function setToken(t: string | null) {
 }
 
 // Call cookie-based refresh endpoint
-async function tryRefresh(): Promise<boolean> {
+export async function tryRefresh(): Promise<boolean> {
 	const res = await fetch("/auth/refresh", { credentials: "include" });
 
 	if (!res.ok) return false;

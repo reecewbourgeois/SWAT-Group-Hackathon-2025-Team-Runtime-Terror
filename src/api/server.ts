@@ -69,7 +69,7 @@ async function main() {
 		reply.code(404).send({ error: "Not Found" });
 	});
 
-	await app.listen({ port: PORT, host: "0.0.0.0" });
+	await app.listen({ port: PORT, host: process.env.NODE_ENV === "production" ? "0.0.0.0" : "localhost" });
 }
 
 main().catch((err) => {

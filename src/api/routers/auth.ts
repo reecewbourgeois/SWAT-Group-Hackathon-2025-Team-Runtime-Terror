@@ -3,6 +3,7 @@ import nodeCrypto from "node:crypto";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { AccessCodeSchema, EmailSchema } from "../../shared/index.js";
+import { LoginModes } from "../../shared/types/LoginModes.js";
 import { sendVerificationEmail } from "../email.js";
 import { signAccessToken } from "../jwt.js";
 import { createRefreshSession, revokeCurrentRefreshSession } from "../refresh.js";
@@ -58,45 +59,58 @@ function assertRegistrationAllowed(email: string, accessCode: string) {
 	}
 }
 
+const InputSchema = z.object({
+	email: EmailSchema,
+	accessCode: AccessCodeSchema.optional(),
+});
+
 const VerifyInput = z.object({
 	email: EmailSchema,
 	code: z.string().min(6).max(12),
-	accessCode: AccessCodeSchema,
+	accessCode: AccessCodeSchema.optional(),
 });
 
 export const authRouter = router({
-	requestCode: publicProcedure
-		.input(z.object({ email: EmailSchema, accessCode: AccessCodeSchema }))
-		.mutation(async ({ ctx, input }) => {
-			// Gate BEFORE any DB writes
-			assertRegistrationAllowed(input.email, input.accessCode);
+	requestCode: publicProcedure.input(InputSchema).mutation(async ({ ctx, input }) => {
+		const userExists = await ctx.prisma.user.findUnique({
+			where: { email: input.email },
+		});
 
-			const code = crypto.randomBytes(8).toString("hex").slice(0, 6);
+		if (!userExists) {
+			assertRegistrationAllowed(input.email, input.accessCode ?? "");
+		}
 
-			const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+		const code = crypto.randomBytes(8).toString("hex").slice(0, 6);
 
-			await ctx.prisma.verificationToken.upsert({
-				where: { email: input.email },
-				update: {
-					code,
-					expiresAt,
-					consumedAt: null,
-				},
-				create: {
-					email: input.email,
-					code,
-					expiresAt,
-				},
-			});
+		const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
-			await sendVerificationEmail(ctx, { to: input.email, code });
+		await ctx.prisma.verificationToken.upsert({
+			where: { email: input.email },
+			update: {
+				code,
+				expiresAt,
+				consumedAt: null,
+			},
+			create: {
+				email: input.email,
+				code,
+				expiresAt,
+			},
+		});
 
-			return { message: "Verification code sent" };
-		}),
+		await sendVerificationEmail(ctx, { to: input.email, code });
+
+		return { message: "Verification code sent", mode: userExists ? LoginModes.Login : LoginModes.Signup };
+	}),
 
 	verify: publicProcedure.input(VerifyInput).mutation(async ({ ctx, input }) => {
-		// Gate BEFORE any DB writes
-		assertRegistrationAllowed(input.email, input.accessCode);
+		const userExists = await ctx.prisma.user.findUnique({
+			where: { email: input.email },
+		});
+
+		if (!userExists) {
+			assertRegistrationAllowed(input.email, input.accessCode ?? "");
+		}
 
 		const vt = await ctx.prisma.verificationToken.findUnique({
 			where: { email: input.email },
