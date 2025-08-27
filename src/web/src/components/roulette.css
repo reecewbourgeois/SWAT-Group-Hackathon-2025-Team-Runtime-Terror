@@ -1,0 +1,151 @@
+.roulette-wheel-buttons-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	width: 100%;
+
+	.buttons-container {
+		display: flex;
+
+		gap: 16px;
+	}
+}
+
+.roulette-options-container {
+	display: flex;
+	flex-direction: column;
+
+	width: 50vw;
+
+	gap: 8px;
+}
+
+.option-container-header {
+	display: flex;
+
+	width: 100%;
+
+	gap: 8px;
+}
+
+.add-new-option-container {
+	display: flex;
+
+	height: 25px;
+	width: 100%;
+
+	gap: 8px;
+
+	.new-option-button {
+		display: flex;
+		align-items: center;
+
+		gap: 4px;
+
+		background-color: green;
+	}
+}
+
+.input-with-icon {
+	display: flex;
+	align-items: center;
+
+	width: 100%;
+
+	gap: 4px;
+
+	.input {
+		width: 100%;
+	}
+}
+
+.input-with-label {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+	width: 100%;
+
+	.label {
+		position: absolute;
+		bottom: -15px;
+
+		display: flex;
+
+		color: red;
+		font-size: 10px;
+	}
+}
+
+.options-list-container {
+	display: flex;
+	flex-direction: column;
+
+	gap: 12px;
+
+	.option-container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		.left-content {
+			display: flex;
+			align-items: center;
+
+			height: 25px;
+
+			gap: 8px;
+
+			.edit-buttons-container {
+				display: flex;
+
+				gap: 2px;
+
+				.button {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+
+					height: 25px;
+
+					padding: 4px;
+
+					background-color: transparent;
+				}
+			}
+		}
+
+		.option-buttons {
+			display: flex;
+
+			gap: 8px;
+
+			.edit-button {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				height: 25px;
+
+				padding: 4px;
+
+				background-color: transparent;
+			}
+
+			.remove-button {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				height: 25px;
+
+				padding: 4px;
+
+				color: red;
+				background-color: transparent;
+			}
+		}
+	}
+}
