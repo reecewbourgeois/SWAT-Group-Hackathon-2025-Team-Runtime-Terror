@@ -75,6 +75,9 @@ const Header = ({ openSettings, title }: HeaderProps) => {
 				onClick={() => {
 					logout.mutate();
 				}}
+				style={{
+					marginRight: '8px'
+				}}
 				type="button"
 			>
 				Logout
