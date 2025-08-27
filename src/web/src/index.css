@@ -135,7 +135,6 @@ textarea {
   display: block;
   width: 100%;
   padding: var(--spacing-sm) var(--spacing-md);
-  margin-bottom: var(--spacing-md);
   font-family: var(--font-family-base);
   font-size: var(--font-size-base);
   line-height: var(--line-height-base);

@@ -13,7 +13,7 @@ export function VerifyPage() {
 	const verify = trpc.auth.verify.useMutation({
 		onSuccess: (data) => {
 			setToken(data.access_token);
-			navigate("/roulette", { replace: true });
+			navigate("/roulette-listings", { replace: true });
 		},
 	});
 
