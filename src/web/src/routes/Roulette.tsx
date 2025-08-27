@@ -8,81 +8,106 @@ import { AiTwotoneSetting } from "react-icons/ai";
 import { SettingsDialog } from "../components/roulette-settings-dialog";
 import { setToken, trpc } from "../trpc";
 import type { PrizeHandleType } from "../types/PrizeHandleType";
+import { BiArrowBack } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 export const Roulette = () => {
-	const [data, setData] = useState<WheelDataType[]>(Sample_Wheel_Data);
-	const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
-	const [prizeHandler, setPrizeHandler] = useState<PrizeHandleType>("Default");
+  const searchParams = new URLSearchParams(window.location.search);
 
-	const nameRef = useRef("Custom Roulette");
+  const name = searchParams.get("name") ?? "Untitled";
 
-	const openSettings = () => {
-		setIsSettingsOpen(true);
-	};
+  const [data, setData] = useState<WheelDataType[]>(Sample_Wheel_Data);
+  const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
+  const [prizeHandler, setPrizeHandler] = useState<PrizeHandleType>("Default");
 
-	const closeSettings = () => {
-		setIsSettingsOpen(false);
-	};
+  const nameRef = useRef(name);
 
-	const saveSettings = (name: string) => {
-		nameRef.current = name;
-		setIsSettingsOpen(false);
-	};
+  const openSettings = () => {
+    setIsSettingsOpen(true);
+  };
 
-	return (
-		<div className="roulette-page-container">
-			<Header openSettings={openSettings} title={nameRef.current} />
+  const closeSettings = () => {
+    setIsSettingsOpen(false);
+  };
 
-			<RouletteWheel data={data} setData={setData} prizeHandler={prizeHandler} />
+  const saveSettings = (name: string) => {
+    nameRef.current = name;
+    setIsSettingsOpen(false);
+  };
 
-			<RouletteOptions data={data} setData={setData} />
+  return (
+    <div className="roulette-page-container">
+      <Header openSettings={openSettings} title={nameRef.current} />
 
-			{isSettingsOpen && (
-				<SettingsDialog
-					closeSettings={closeSettings}
-					name={nameRef.current}
-					saveSettings={saveSettings}
-					prizeHandler={prizeHandler}
-					updatePrizeHandler={setPrizeHandler}
-				/>
-			)}
-		</div>
-	);
+      <RouletteWheel
+        data={data}
+        setData={setData}
+        prizeHandler={prizeHandler}
+      />
+
+      <RouletteOptions data={data} setData={setData} />
+
+      {isSettingsOpen && (
+        <SettingsDialog
+          closeSettings={closeSettings}
+          name={nameRef.current}
+          saveSettings={saveSettings}
+          prizeHandler={prizeHandler}
+          updatePrizeHandler={setPrizeHandler}
+        />
+      )}
+    </div>
+  );
 };
 
 type HeaderProps = {
-	title: string;
-	openSettings: () => void;
+  title: string;
+  openSettings: () => void;
 };
 
 const Header = ({ openSettings, title }: HeaderProps) => {
-	const utils = trpc.useUtils();
+  const navigate = useNavigate();
 
-	const logout = trpc.auth.logout.useMutation({
-		onSuccess: () => {
-			setToken(null);
-			utils.invalidate();
-			// After logout, go back to /login
-			window.location.href = "/login";
-		},
-	});
+  const utils = trpc.useUtils();
 
-	return (
-		<div className="header-container">
-			<label className="header-label">{title}</label>
+  const logout = trpc.auth.logout.useMutation({
+    onSuccess: () => {
+      setToken(null);
+      utils.invalidate();
+      // After logout, go back to /login
+      window.location.href = "/login";
+    },
+  });
 
-			<button
-				onClick={() => {
-					logout.mutate();
-				}}
-				type="button"
-			>
-				Logout
-			</button>
+  const goBack = () => {
+    navigate("/roulette-listings");
+  };
 
-			<button className="settings-button" onClick={openSettings}>
-				<AiTwotoneSetting className="button" />
-			</button>
-		</div>
-	);
+  return (
+    <div className="header-container">
+      <div className="top-row">
+        <button className="back-button" onClick={goBack}>
+          <BiArrowBack />
+          Back to Listings
+        </button>
+
+        <button
+          onClick={() => {
+            logout.mutate();
+          }}
+          type="button"
+        >
+          Logout
+        </button>
+      </div>
+
+      <div className="bottom-row">
+        <label className="header-label">{title}</label>
+
+        <button className="settings-button" onClick={openSettings}>
+          <AiTwotoneSetting className="button" />
+        </button>
+      </div>
+    </div>
+  );
 };
