@@ -1,62 +1,137 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { WheelDataType } from "../types/WheelDataType";
 import "./roulette.css";
 import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
+import { BiSearch } from "react-icons/bi";
+
+const ErrorMessage = {
+  Exists: "Option already exists.",
+} as const;
 
 type Props = {
-	data: WheelDataType[];
-	setData: (arg: WheelDataType[]) => void;
+  data: WheelDataType[];
+  setData: (arg: WheelDataType[]) => void;
 };
 
 export const RouletteOptions = ({ data, setData }: Props) => {
-	const [input, setInput] = useState<string>("");
+  const [searchInput, setSearchInput] = useState<string>("");
+  const [optionInput, setOptionInput] = useState<string>("");
 
-	const add = () => {
-		const newOption: WheelDataType = {
-			prizeNumber: data.length,
-			option: input,
-		};
+  const searchedOptions = useMemo(() => {
+    return data.filter((val) =>
+      val.option?.toLowerCase().startsWith(searchInput.toLowerCase())
+    );
+  }, [searchInput, data]);
 
-		setData([...data, newOption]);
-		setInput("");
-	};
+  const error = useMemo((): string | null => {
+    const doesOptionExist = data.some(
+      (val) => val.option?.toLowerCase() === optionInput.trim().toLowerCase()
+    );
 
-	const remove = (value: WheelDataType) => {
-		const filteredOptions = data.filter((val) => val.prizeNumber !== value.prizeNumber);
-		setData(filteredOptions);
-	};
+    return doesOptionExist ? ErrorMessage.Exists : null;
+  }, [optionInput, data]);
 
-	return (
-		<div className="roulette-options-container">
-			<div className="add-new-option-container">
-				<input
-					className="new-option-input"
-					onChange={(event) => setInput(event.currentTarget.value)}
-					placeholder="New Option"
-					value={input}
-				/>
+  const add = () => {
+    if (error) return;
 
-				<button className="new-option-button" onClick={add}>
-					<AiOutlinePlus />
-				</button>
-			</div>
+    const newOption: WheelDataType = {
+      prizeNumber: data.length,
+      option: optionInput,
+    };
 
-			<div className="options-list-container">
-				{data.map((value) => {
-					return (
-						<div className="option-container">
-							<div>
-								<label>{value.prizeNumber}. </label>
-								<label>{value.option}</label>
-							</div>
+    setData([...data, newOption]);
+    setOptionInput("");
+  };
 
-							<button className="remove-button" onClick={() => remove(value)}>
-								<AiOutlineDelete />
-							</button>
-						</div>
-					);
-				})}
-			</div>
-		</div>
-	);
+  const remove = (value: WheelDataType) => {
+    const filteredOptions = data.filter(
+      (val) => val.prizeNumber !== value.prizeNumber
+    );
+    setData(filteredOptions);
+  };
+
+  return (
+    <div className="roulette-options-container">
+      <OptionListHeader
+        add={add}
+        error={error}
+        optionInput={optionInput}
+        searchInput={searchInput}
+        setOptionInput={setOptionInput}
+        setSearchInput={setSearchInput}
+      />
+
+      <div className="options-list-container">
+        {searchedOptions.map((value) => {
+          return (
+            <div className="option-container">
+              <div>
+                <label>{value.prizeNumber}. </label>
+                <label>{value.option}</label>
+              </div>
+
+              <button className="remove-button" onClick={() => remove(value)}>
+                <AiOutlineDelete />
+              </button>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+type OptionListHeaderProps = {
+  optionInput: string;
+  searchInput: string;
+  error: string | null;
+  setOptionInput: (arg: string) => void;
+  setSearchInput: (arg: string) => void;
+  add: () => void;
+};
+
+const OptionListHeader = ({
+  error,
+  optionInput,
+  searchInput,
+  setOptionInput,
+  setSearchInput,
+  add,
+}: OptionListHeaderProps) => {
+  const isAddDisabled = optionInput.trim() === "" || !!error;
+
+  return (
+    <div className="option-container-header">
+      <div className="input-with-icon">
+        <BiSearch />
+
+        <input
+          className="input"
+          onChange={(event) => setSearchInput(event.currentTarget.value)}
+          placeholder="Search"
+          value={searchInput}
+        />
+      </div>
+
+      <div className="add-new-option-container">
+        <div className="input-with-label">
+          <input
+            onChange={(event) => setOptionInput(event.currentTarget.value)}
+            placeholder="Add Option"
+            value={optionInput}
+          />
+
+          <label className="label">{error}</label>
+        </div>
+
+        <button
+          className="new-option-button"
+          disabled={isAddDisabled}
+          onClick={add}
+        >
+          <AiOutlinePlus />
+        </button>
+      </div>
+    </div>
+  );
 };
