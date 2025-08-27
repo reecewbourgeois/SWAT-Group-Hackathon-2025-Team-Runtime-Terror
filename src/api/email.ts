@@ -15,11 +15,13 @@ export async function sendVerificationEmail(ctx: { res: FastifyReply }, opts: { 
 	const subject = "Your verification code";
 	const text = `Your verification code is ${opts.code}. It expires in 10 minutes.`;
 	const html = `<p>Your verification code is <strong>${opts.code}</strong>.</p><p>It expires in 10 minutes.</p>`;
-	await resend.emails.send({
+	const emailResponse = await resend.emails.send({
 		from,
 		to: opts.to,
 		subject,
 		text,
 		html,
 	});
+
+	ctx.res.log.info({emailResponse}, "Email Status")
 }

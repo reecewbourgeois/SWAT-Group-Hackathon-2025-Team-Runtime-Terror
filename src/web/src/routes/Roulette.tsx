@@ -1,12 +1,13 @@
 import { useRef, useState } from "react";
-import type { WheelDataType } from "../types/WheelDataType";
+import { Sample_Wheel_Data } from "../api/sample-wheel-data";
 import { RouletteOptions } from "../components/roulette-options";
 import { RouletteWheel } from "../components/roulette-wheel";
-import { Sample_Wheel_Data } from "../api/sample-wheel-data";
+import type { WheelDataType } from "../types/WheelDataType";
 import "./roulette.css";
 import { AiTwotoneSetting } from "react-icons/ai";
-import { type PrizeHandleType } from "../types/PrizeHandleType";
 import { SettingsDialog } from "../components/roulette-settings-dialog";
+import { setToken, trpc } from "../trpc";
+import type { PrizeHandleType } from "../types/PrizeHandleType";
 
 export const Roulette = () => {
 	const [data, setData] = useState<WheelDataType[]>(Sample_Wheel_Data);
@@ -55,9 +56,29 @@ type HeaderProps = {
 };
 
 const Header = ({ openSettings, title }: HeaderProps) => {
+	const utils = trpc.useUtils();
+
+	const logout = trpc.auth.logout.useMutation({
+		onSuccess: () => {
+			setToken(null);
+			utils.invalidate();
+			// After logout, go back to /login
+			window.location.href = "/login";
+		},
+	});
+
 	return (
 		<div className="header-container">
 			<label className="header-label">{title}</label>
+
+			<button
+				onClick={() => {
+					logout.mutate();
+				}}
+				type="button"
+			>
+				Logout
+			</button>
 
 			<button className="settings-button" onClick={openSettings}>
 				<AiTwotoneSetting size="25" />
