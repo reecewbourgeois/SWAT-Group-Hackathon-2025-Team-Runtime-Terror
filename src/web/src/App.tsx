@@ -63,7 +63,7 @@ function RedirectIfAuthed() {
   }, []);
 
   if (checking) return <div>Loading…</div>;
-  if (hasToken()) return <Navigate to="/roulette" replace />;
+  if (hasToken()) return <Navigate to="/roulette-listings" replace />;
   return <Outlet />;
 }
 
@@ -71,14 +71,14 @@ export default function App() {
   return (
     <Routes>
       {/* Public auth flow, but auto-redirect if authed */}
-      <Route>
+      <Route element={<RedirectIfAuthed />}>
         <Route path="/" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/verify" element={<VerifyPage />} />
       </Route>
 
       {/* Protected app */}
-      <Route>
+      <Route element={<RequireAuth />}>
         <Route path="/roulette-listings" element={<RouletteListings />} />
         <Route path="/roulette" element={<Roulette />} />
       </Route>
